@@ -1,19 +1,39 @@
 const player = document.getElementById("player");
 
-/* posição inicial */
-let posY = 182;
+let posY = 176;
+const velocidade = 6;
 
-/* configurações */
-const velocidade = 8;
-const areaAltura = 400;
-const playerAltura = 36;
+/* spritesheet config */
+const frameWidth = 48;
+const frameHeight = 48;
+const columns = 2;
+const rows = 3;
+const totalFrames = 6;
 
-/* limites */
-const limiteTop = 0;
-const limiteBottom = areaAltura - playerAltura;
+let currentFrame = 0;
+let moving = false;
 
-/* movimento vertical */
+/* animação */
+function animate() {
+  if (moving) {
+    currentFrame = (currentFrame + 1) % totalFrames;
+
+    const col = currentFrame % columns;
+    const row = Math.floor(currentFrame / columns);
+
+    const x = col * frameWidth;
+    const y = row * frameHeight;
+
+    player.style.backgroundPosition = `-${x}px -${y}px`;
+  }
+
+  requestAnimationFrame(animate);
+}
+
+/* controle */
 document.addEventListener("keydown", (e) => {
+  moving = true;
+
   if (e.key === "ArrowUp") {
     posY -= velocidade;
   }
@@ -22,9 +42,15 @@ document.addEventListener("keydown", (e) => {
     posY += velocidade;
   }
 
-  if (posY < limiteTop) posY = limiteTop;
-  if (posY > limiteBottom) posY = limiteBottom;
+  if (posY < 0) posY = 0;
+  if (posY > 400 - frameHeight) posY = 400 - frameHeight;
 
   player.style.top = posY + "px";
 });
 
+document.addEventListener("keyup", () => {
+  moving = false;
+});
+
+/* start animation */
+animate();

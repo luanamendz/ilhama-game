@@ -1,42 +1,28 @@
 const map = document.getElementById("map");
 const player = document.getElementById("player");
 
-/* CONFIGURAÇÕES */
-const tileSize = 48;
-const mapTiles = 20; // 20x20 tiles
-const mapSize = tileSize * mapTiles;
-const speed = 3;
+/* CONFIG */
+const speed = 2.5;
+const frameWidth = 48;
+const frameCount = 4;
+
+/* TAMANHO REAL DO MAPA */
+const mapWidth = 1536;
+const mapHeight = 1536;
 
 /* viewport */
 const viewW = 360;
 const viewH = 420;
 
-/* posição inicial da ilhama */
-let playerX = mapSize / 2;
-let playerY = mapSize / 2;
+/* posição */
+let playerX = mapWidth / 2;
+let playerY = mapHeight / 2;
 
-/*
-0 = grama (andar)
-1 = casa / celeiro
-2 = estrada (andar)
-3 = água
-4 = plantação
-5 = cerca / árvore
-*/
-const collisionMap = [
-  [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],
-  [5,0,0,0,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,5],
-  [5,0,4,4,4,2,1,1,1,2,0,4,4,4,0,0,0,0,0,5],
-  [5,0,4,4,4,2,1,1,1,2,0,4,4,4,0,3,3,3,0,5],
-  [5,0,0,0,0,2,2,2,2,2,0,0,0,0,0,3,3,3,0,5],
-  [5,0,5,5,0,0,0,0,0,0,0,5,5,5,0,0,0,0,0,5],
-  [5,0,0,0,0,4,4,4,0,0,0,0,0,0,0,0,0,0,0,5],
-  [5,0,0,0,0,4,4,4,0,0,0,1,1,1,0,0,0,0,0,5],
-  [5,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,5],
-  [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],
-];
+/* animação */
+let frame = 0;
+let frameTimer = 0;
 
-/* CONTROLES */
+/* controles */
 const keys = {};
 window.addEventListener("keydown", e => {
   e.preventDefault();
@@ -44,39 +30,52 @@ window.addEventListener("keydown", e => {
 });
 window.addEventListener("keyup", e => keys[e.key] = false);
 
-/* COLISÃO */
-function canMove(x, y) {
-  const col = Math.floor((x + 24) / tileSize);
-  const row = Math.floor((y + 24) / tileSize);
-
-  const tile = collisionMap[row]?.[col];
-  return tile === 0 || tile === 2;
-}
-
-/* LOOP PRINCIPAL */
+/* LOOP */
 function loop() {
-  let nextX = playerX;
-  let nextY = playerY;
+  let moving = false;
 
-  if (keys["ArrowUp"]) nextY -= speed;
-  if (keys["ArrowDown"]) nextY += speed;
-  if (keys["ArrowLeft"]) nextX -= speed;
-  if (keys["ArrowRight"]) nextX += speed;
-
-  if (canMove(nextX, nextY)) {
-    playerX = nextX;
-    playerY = nextY;
+  if (keys["ArrowUp"]) {
+    playerY -= speed;
+    moving = true;
+  }
+  if (keys["ArrowDown"]) {
+    playerY += speed;
+    moving = true;
+  }
+  if (keys["ArrowLeft"]) {
+    playerX -= speed;
+    moving = true;
+  }
+  if (keys["ArrowRight"]) {
+    playerX += speed;
+    moving = true;
   }
 
-  /* câmera segue a ilhama */
+  /* anima só se estiver andando */
+  if (moving) {
+    frameTimer++;
+    if (frameTimer > 8) {
+      frame = (frame + 1) % frameCount;
+      frameTimer = 0;
+    }
+  } else {
+    frame = 0; // parado
+  }
+
+  player.style.backgroundPosition = `-${frame * frameWidth}px 0`;
+
+  /* limites */
+  playerX = Math.max(0, Math.min(playerX, mapWidth - frameWidth));
+  playerY = Math.max(0, Math.min(playerY, mapHeight - frameWidth));
+
+  /* câmera */
   const camX = Math.min(
     Math.max(playerX - viewW / 2, 0),
-    mapSize - viewW
+    mapWidth - viewW
   );
-
   const camY = Math.min(
     Math.max(playerY - viewH / 2, 0),
-    mapSize - viewH
+    mapHeight - viewH
   );
 
   map.style.left = -camX + "px";

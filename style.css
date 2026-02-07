@@ -11,47 +11,43 @@ body {
   justify-content: center;
   align-items: center;
   font-family: monospace;
-  color: #fff;
+  color: white;
 }
 
-/* área visível do jogo */
+/* visor do jogo */
 .viewport {
   width: 360px;
   height: 420px;
   overflow: hidden;
   border-radius: 20px;
-  box-shadow: 0 0 35px rgba(150, 80, 255, 0.6);
+  box-shadow: 0 0 40px rgba(160, 90, 255, 0.6);
   position: relative;
 }
 
-/* mapa grande */
+/* mapa (tamanho real da imagem) */
 #map {
   position: absolute;
-  width: 960px;
-  height: 960px;
   background-image: url("assets/mapa.png");
   background-repeat: no-repeat;
   image-rendering: pixelated;
 }
 
-/* personagem */
+/* personagem (spritesheet 4 frames horizontais) */
 #player {
-  position: absolute;
   width: 48px;
   height: 48px;
+  position: absolute;
 
   background-image: url("assets/llama.png");
   background-repeat: no-repeat;
-  background-size: cover;
+
+  /* 4 frames x 48px */
+  background-size: 192px 48px;
+
   image-rendering: pixelated;
 }
 
 .info {
   margin-top: 12px;
-  opacity: 0.8;
-}
-
-.info {
-  margin-top: 12px;
-  opacity: 0.8;
+  opacity: 0.85;
 }

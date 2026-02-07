@@ -20,11 +20,15 @@ body {
 }
 
 #player {
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
   position: absolute;
-  left: 142px;       /* (320 - 36) / 2 */
-  top: 182px;        /* (400 - 36) / 2 */
+  left: 136px;
+  top: 176px;
+
+  background-image: url("assets/llama.png");
+  background-repeat: no-repeat;
+
   image-rendering: pixelated;
 }
 
@@ -32,4 +36,3 @@ body {
   margin-top: 12px;
   opacity: 0.8;
 }
-

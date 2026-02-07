@@ -1,42 +1,54 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
-  background: linear-gradient(180deg, #120024, #1e1e2e);
   margin: 0;
+  background: #0f1020;
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   font-family: monospace;
-  color: #ffffff;
+  color: #fff;
 }
 
-.game {
-  width: 320px;
-  height: 400px;
-  position: relative;
+/* área visível do jogo */
+.viewport {
+  width: 360px;
+  height: 420px;
   overflow: hidden;
-  border-radius: 16px;
-
-  /* cenário */
-  background:
-    repeating-linear-gradient(
-      90deg,
-      #2a2a40 0 32px,
-      #24243a 32px 64px
-    );
-  box-shadow: 0 0 25px rgba(123, 44, 191, 0.6);
+  border-radius: 20px;
+  box-shadow: 0 0 35px rgba(150, 80, 255, 0.6);
+  position: relative;
 }
 
+/* mapa grande */
+#map {
+  position: absolute;
+  width: 960px;
+  height: 960px;
+  background-image: url("assets/mapa.png");
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+}
+
+/* personagem */
 #player {
+  position: absolute;
   width: 48px;
   height: 48px;
-  position: absolute;
-  left: 136px;
-  top: 176px;
 
   background-image: url("assets/llama.png");
   background-repeat: no-repeat;
+  background-size: cover;
   image-rendering: pixelated;
+}
+
+.info {
+  margin-top: 12px;
+  opacity: 0.8;
 }
 
 .info {

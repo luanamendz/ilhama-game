@@ -1,5 +1,5 @@
 body {
-  background: #1e1e2e;
+  background: linear-gradient(180deg, #120024, #1e1e2e);
   margin: 0;
   height: 100vh;
   display: flex;
@@ -13,10 +13,18 @@ body {
 .game {
   width: 320px;
   height: 400px;
-  background: #2a2a40;
-  border-radius: 12px;
   position: relative;
   overflow: hidden;
+  border-radius: 16px;
+
+  /* cenário */
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #2a2a40 0 32px,
+      #24243a 32px 64px
+    );
+  box-shadow: 0 0 25px rgba(123, 44, 191, 0.6);
 }
 
 #player {
@@ -28,7 +36,6 @@ body {
 
   background-image: url("assets/llama.png");
   background-repeat: no-repeat;
-
   image-rendering: pixelated;
 }
 

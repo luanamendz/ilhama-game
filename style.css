@@ -33,18 +33,3 @@ body {
   opacity: 0.8;
 }
 
-
-/* personagem pixel art */
-#player {
-  width: 48px;      /* ajuste ao tamanho do seu PNG */
-  height: 48px;
-  position: absolute;
-  left: 136px;
-  top: 176px;
-  image-rendering: pixelated;
-}
-
-.info {
-  margin-top: 12px;
-  opacity: 0.8;
-}

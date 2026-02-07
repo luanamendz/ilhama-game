@@ -7,10 +7,9 @@ body {
   justify-content: center;
   align-items: center;
   font-family: monospace;
-  color: #fff;
+  color: #ffffff;
 }
 
-/* área do jogo */
 .game {
   width: 320px;
   height: 400px;
@@ -19,6 +18,21 @@ body {
   position: relative;
   overflow: hidden;
 }
+
+#player {
+  width: 36px;
+  height: 36px;
+  position: absolute;
+  left: 142px;       /* (320 - 36) / 2 */
+  top: 182px;        /* (400 - 36) / 2 */
+  image-rendering: pixelated;
+}
+
+.info {
+  margin-top: 12px;
+  opacity: 0.8;
+}
+
 
 /* personagem pixel art */
 #player {

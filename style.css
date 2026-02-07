@@ -1,0 +1,36 @@
+body {
+  background: #1e1e2e;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: monospace;
+  color: #fff;
+}
+
+/* área do jogo */
+.game {
+  width: 320px;
+  height: 400px;
+  background: #2a2a40;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* personagem pixel art */
+#player {
+  width: 48px;      /* ajuste ao tamanho do seu PNG */
+  height: 48px;
+  position: absolute;
+  left: 136px;
+  top: 176px;
+  image-rendering: pixelated;
+}
+
+.info {
+  margin-top: 12px;
+  opacity: 0.8;
+}

@@ -1,56 +1,87 @@
 const player = document.getElementById("player");
 
-let posY = 176;
-const velocidade = 6;
+/* posição */
+let x = 136;
+let y = 176;
+const speed = 4;
 
-/* spritesheet config */
+/* spritesheet */
 const frameWidth = 48;
 const frameHeight = 48;
 const columns = 2;
-const rows = 3;
-const totalFrames = 6;
+const totalFrames = 2; // por linha
 
-let currentFrame = 0;
+/* estado */
+let frame = 0;
+let direction = "down";
 let moving = false;
 
-/* animação */
-function animate() {
-  if (moving) {
-    currentFrame = (currentFrame + 1) % totalFrames;
+/* mapa de animações */
+const animations = {
+  down: 0,
+  up: 1,
+  side: 2
+};
 
-    const col = currentFrame % columns;
-    const row = Math.floor(currentFrame / columns);
+/* teclado */
+const keys = {};
 
-    const x = col * frameWidth;
-    const y = row * frameHeight;
+document.addEventListener("keydown", e => {
+  keys[e.key] = true;
+});
 
-    player.style.backgroundPosition = `-${x}px -${y}px`;
+document.addEventListener("keyup", e => {
+  keys[e.key] = false;
+});
+
+/* loop */
+function gameLoop() {
+  moving = false;
+
+  if (keys["ArrowUp"]) {
+    y -= speed;
+    direction = "up";
+    moving = true;
+  }
+  if (keys["ArrowDown"]) {
+    y += speed;
+    direction = "down";
+    moving = true;
+  }
+  if (keys["ArrowLeft"]) {
+    x -= speed;
+    direction = "side";
+    player.style.transform = "scaleX(-1)";
+    moving = true;
+  }
+  if (keys["ArrowRight"]) {
+    x += speed;
+    direction = "side";
+    player.style.transform = "scaleX(1)";
+    moving = true;
   }
 
-  requestAnimationFrame(animate);
+  /* limites */
+  x = Math.max(0, Math.min(320 - frameWidth, x));
+  y = Math.max(0, Math.min(400 - frameHeight, y));
+
+  player.style.left = x + "px";
+  player.style.top = y + "px";
+
+  /* animação */
+  if (moving) {
+    frame = (frame + 0.15) % totalFrames;
+  } else {
+    frame = 0;
+  }
+
+  const col = Math.floor(frame);
+  const row = animations[direction];
+
+  player.style.backgroundPosition =
+    `-${col * frameWidth}px -${row * frameHeight}px`;
+
+  requestAnimationFrame(gameLoop);
 }
 
-/* controle */
-document.addEventListener("keydown", (e) => {
-  moving = true;
-
-  if (e.key === "ArrowUp") {
-    posY -= velocidade;
-  }
-
-  if (e.key === "ArrowDown") {
-    posY += velocidade;
-  }
-
-  if (posY < 0) posY = 0;
-  if (posY > 400 - frameHeight) posY = 400 - frameHeight;
-
-  player.style.top = posY + "px";
-});
-
-document.addEventListener("keyup", () => {
-  moving = false;
-});
-
-/* start animation */
-animate();
+gameLoop();
